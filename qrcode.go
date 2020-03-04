@@ -122,6 +122,21 @@ func WriteColorFile(content string, level RecoveryLevel, size int, background,
 	return q.WriteFile(size, filename)
 }
 
+func EncodeColor(content string, level RecoveryLevel, size int, background, foreground color.Color) ([]byte, error) {
+	var q *QRCode
+
+	q, err := New(content, level)
+
+	q.BackgroundColor = background
+	q.ForegroundColor = foreground
+
+	if err != nil {
+		return nil, err
+	}
+
+	return q.PNG(size)
+}
+
 // A QRCode represents a valid encoded QRCode.
 type QRCode struct {
 	// Original content encoded.
